@@ -41,12 +41,12 @@ from payments
 group by payment_type
 order by total_amount desc;
 
-/* 🟢 4. Average Order Value (AOV)*/
+/* 🟢 5. Average Order Value (AOV)*/
 
 select sum(payment_value)/count(distinct order_id) as avg_order_value
 from payments;
 
-/* 🔵 7. Monthly Running Revenue (Window Function) */
+/* 🔵 6. Monthly Running Revenue (Window Function) */
 with monthly_sales as (
 select 
 format(o.order_purchase_timestamp,'yyyy') as order_year
@@ -60,7 +60,7 @@ select *,
 sum(total_amount) over(partition by order_year order by order_month rows between unbounded preceding and current row ) as runnning_total_sum
 from monthly_sales;
 
-/* 🔵 8. Customer Segmentation (CASE) */
+/* 🔵 7. Customer Segmentation (CASE) */
 
 with customer_segment as (
 select o.customer_id, sum(p.payment_value) as total_amount_paid
